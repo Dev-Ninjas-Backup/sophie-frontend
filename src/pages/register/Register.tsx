@@ -97,7 +97,7 @@ console.log(formData)
 
 
   return (
-    <div  className="min-h-[50vh] flex flex-col  text-white items-center justify-center p-4">
+    <div  className="min-h-[50vh] flex flex-col font-abc-light  text-white items-center justify-center p-4">
          <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-3  tracking-[-2px]  italic text-center mb-12">BECOME A MEMBER</h1>
       <div className="w-full max-w-5xl bg-[#191919] p-6 rounded-3xl ">
         <div className="mb-8">
@@ -115,7 +115,7 @@ console.log(formData)
                   className="h-1 bg-[#F80B58] mt-2 transition-all duration-500 ease-out rounded-full"
                   style={{ width: currentStep >= 1 ? "100%" : "0px" }}
                 ></div>
-                   <p className="text-sm lg:text-base font-semibold my-2">Registrant details</p>
+                   <p className="text-base lg:text-lg  my-2">Registrant details</p>
               </div>
               <div className="relative w-full">
                     <div className="relative w-full bg-black">
@@ -127,7 +127,7 @@ console.log(formData)
                         }}
                       ></div>
                     </div>
-                   <p className={`text-sm lg:text-base font-semibold my-2 ${currentStep === 2 ? "text-white" : "text-gray-500"}`}>
+                   <p className={`text-base lg:text-lg  my-2 ${currentStep === 2 ? "text-white" : "text-gray-500"}`}>
                   Pay & register
                 </p>
               </div>

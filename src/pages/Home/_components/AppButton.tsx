@@ -18,7 +18,7 @@ const AppButton: React.FC<AppButtonProps> = ({ color, children, onClick }) => {
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={onClick}
-      className="px-8 py-2 w-46 cursor-pointer text-white font- rounded-3xl transition text-base md:text-lg lg:text-xl xl:text-2xl"
+      className="px-8 py-2 w-46 cursor-pointer text-white font-abc-light rounded-3xl transition text-base md:text-lg lg:text-xl xl:text-2xl"
     >
       {children}
     </button>

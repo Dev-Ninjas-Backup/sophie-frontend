@@ -80,7 +80,7 @@ const navigate = useNavigate()
     <div className="min-h-screen bg-black text-white py-10  px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
         {/* Title */}
-        <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-3   tracking-[-2px] italic text-center mb-12 text-balance">PARTNERS</h1>
+        <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-4   tracking-[-2px] italic text-center mb-12 text-balance">PARTNERS</h1>
 
         {/* Partner Categories */}
       <Categories partnerCategories={partnerCategories} />

@@ -48,9 +48,11 @@ const { pathname } = useLocation()
           {/* Desktop Sign Up */}
           <div className="flex gap-3 justify-center items-center">
               <div className="hidden md:block">
-                  <button onClick={()=>navigate("/register")} className="px-6 py-2 border text-lg text-white cursor-pointer border-white rounded-full hover:bg-white hover:text-black transition font-">
+                     {
+                ( pathname  !== "/" ) ?  <button onClick={()=>navigate("/register")} className=" px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font">
                     Sign Up
-                  </button>
+                  </button>: <div></div>
+                }  
               </div>
               <div className="hidden md:block">
                 <button onClick={()=>navigate("/contact")} className="px-6 py-2 border text-lg text-white cursor-pointer border-white rounded-full hover:bg-white hover:text-black transition font-">
@@ -93,10 +95,12 @@ const { pathname } = useLocation()
             }
 
             <div className="flex flex-col w-32 gap-3">
-              <button onClick={()=>navigate("/register")} className=" px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font-semibold">
-              Sign Up
-            </button>
-             <button onClick={()=>navigate("/contact")} className=" px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font-semibold">
+                        {
+                ( pathname  !== "/" ) ?  <button onClick={()=>navigate("/register")} className=" px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font-">
+                    Sign Up
+                  </button>: <div></div>
+                }          
+            <button onClick={()=>navigate("/contact")} className=" px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font-">
               Contact
             </button>
             </div>
