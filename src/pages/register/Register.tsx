@@ -98,7 +98,7 @@ console.log(formData)
 
   return (
     <div  className="min-h-[50vh] flex flex-col font-abc-light  text-white items-center justify-center p-4">
-         <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-3  tracking-[-2px]  italic text-center mb-12">BECOME A MEMBER</h1>
+         <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-4  tracking-[-2px]  italic text-center mb-12">BECOME A MEMBER</h1>
       <div className="w-full max-w-5xl bg-[#191919] p-6 rounded-3xl ">
         <div className="mb-8">
           <div className="flex flex-col mb-6">

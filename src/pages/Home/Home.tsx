@@ -53,7 +53,7 @@ const Home = () => {
 
       {/* Feature Cards */}
      <div className="flex justify-center">
-       <div className="grid grid-cols-1 md:grid-cols-3 justify-center items-center text-center gap-2.5 mb-12">
+       <div className="flex flex-col max-w-5xl px-6  justify-center items-center text-center gap-1 mb-12">
         {features.map((item, index) => (
           <FeatureCard key={index} color={item.color}>
             {item.text}

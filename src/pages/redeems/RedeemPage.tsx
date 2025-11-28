@@ -13,7 +13,7 @@ export default function RedeemPage() {
   return (
     <div className=" bg-[#0B0003] text-white flex flex-col items-center p-6">
       {/* Header */}
-      <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-3   tracking-[-2px] mt-10 text-center">
+      <h1 className="text-5xl md:text-6xl lg:txet-7xl xl:text-8xl font-abc-ultra-3 bold-stroke-4   tracking-[-2px] mt-10 text-center">
         MEMBERSHIP VALIDATION
       </h1>
       <p className="text-base md:text-lg lg:text-xl xl:text-2xl text-gray-200 mt-3 text-center max-w-4xl">
