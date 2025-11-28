@@ -51,8 +51,8 @@ const StepTwo: React.FC<StepTwoProps> = ({ data, onChange, onBack, onSubmit }) =
           <p className="text-lg lg:text-xl ">Validity:</p>
            <div>
             <select
-      value={data.validity}              // bind the selected value
-      onChange={(e) => handleChange("validity", e.target.value)}  // update validity
+      value={data.validity}             
+      onChange={(e) => handleChange("validity", e.target.value)}  
       className="bg-[#2B2B2B] border border-transparent rounded-lg px-3 py-2
                  text-white text-lg lg:text-xl focus:ring-1 focus:ring-[#F80B58] focus:outline-none"
     >
