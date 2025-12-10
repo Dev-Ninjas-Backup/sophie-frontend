@@ -6,6 +6,9 @@ import googleImg from "@/assets/payment/Google.png"
 import visaImg from "@/assets/payment/visa.svg"
 import mastercardImg from "@/assets/payment/masterCard.svg"
 import stripeImg from "@/assets/payment/Stripe.png"
+import { useRef, useState } from "react"
+import { toast } from "react-toastify"
+import { useElements, useStripe } from "@stripe/react-stripe-js"
 
 interface StepTwoProps {
   data: {
@@ -22,6 +25,13 @@ interface StepTwoProps {
 }
 
 const StepTwo: React.FC<StepTwoProps> = ({ data, onChange, onBack, onSubmit }) => {
+  const stripe = useStripe();
+const elements = useElements();
+  const isStripeReady = stripe && elements;
+
+  
+    const cardRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const [isChecked, setIsChecked] = useState(false);
   const handleChange = (field: string, value: string) => {
     onChange({ [field]: value })
   }
@@ -31,7 +41,40 @@ const StepTwo: React.FC<StepTwoProps> = ({ data, onChange, onBack, onSubmit }) =
   }
 
 
-  const isValid = data.cardholderName && data.cardNumber && data.expireDate && data.cvc
+    const handleCardInput = (idx: number, value: string) => {
+    const val = value.replace(/\D/g, "").slice(0, 4);
+    const segments = data.cardNumber.split(" ");
+    segments[idx] = val;
+    handleChange("cardNumber", segments.join(" ").trim());
+
+    if (val.length === 4 && idx < 3) {
+      cardRefs.current[idx + 1]?.focus();
+    }
+  };
+
+  const handleCardKeyDown = (idx: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !data.cardNumber.split(" ")[idx] && idx > 0) {
+      cardRefs.current[idx - 1]?.focus();
+    }
+  };
+
+
+  const isValid =
+    data.cardholderName &&
+    data.cardNumber.replace(/\s/g, "").length === 16 &&
+    data.cvc.length === 3 &&
+    new Date(data.expireDate) > new Date() 
+     ;
+
+
+       const handleClick = () => {
+        if (!isChecked) {
+              toast.warn("Please agree to the privacy policy & terms of service.");
+              return;
+            }
+            onSubmit();
+          };
+
 
   return (
       <div className="">
@@ -123,63 +166,58 @@ const StepTwo: React.FC<StepTwoProps> = ({ data, onChange, onBack, onSubmit }) =
 
        {/* Card Number */}
 <div>
-  <label className="block text-lg lg:text-xl font-abc-light mb-2">Card Number:</label>
-  <div className="flex gap-2">
-    {Array.from({ length: 4 }).map((_, idx) => {
-      const segment = data.cardNumber.split(" ")[idx] || "";
-      return (
-        <Input
-          key={idx}
-          type="text"
-          maxLength={4}
-          value={segment}
-          placeholder="-  -  -  -"
-          onChange={(e) => {
-            let val = e.target.value.replace(/\D/g, "").slice(0, 4);
-            const segments = data.cardNumber.split(" ");
-            segments[idx] = val;
-            const formatted = segments.join(" ").trim();
-            handleChange("cardNumber", formatted);
-          }}
-          className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg   h-12 text-center"
-        />
-      );
-    })}
-  </div>
+  <label className="block text-lg lg:text-xl font-abc-light mb-2">Card Number:  <span className="text-sm text-[#F80B58]">{!isValid && "Must be 12 digits"} </span></label>
+<div className="flex gap-2">
+  {Array.from({ length: 4 }).map((_, idx) => (
+    <Input
+      key={idx}
+      type="text"
+      maxLength={4}
+      ref={(el) => { cardRefs.current[idx] = el; }}
+      value={data.cardNumber.split(" ")[idx] || ""}
+      onChange={(e) => handleCardInput(idx, e.target.value)}
+      onKeyDown={(e) => handleCardKeyDown(idx, e)}
+      placeholder="- - - -"
+      className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white text-center text-base lg:text-lg h-12"
+    />
+  ))}
+</div>
+
 </div>
 
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label className="block text-lg lg:text-xl font-abc-light mb-2">Expire Date:</label>
+            <label className="block text-lg lg:text-xl font-abc-light mb-2">Expire Date: <span className="text-sm text-[#F80B58]">{!isValid && "Must Be Future Date"}</span></label>
             <Input
               type="date"
-              placeholder="Enter Date"
               value={data.expireDate}
+               className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg   h-12"
               onChange={(e) => handleChange("expireDate", e.target.value)}
-              className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg   h-12"
             />
           </div>
           <div>
-            <label className="block text-lg lg:text-xl font-abc-light mb-2">CVC:</label>
-            <Input
-              type="number"
-              placeholder="-  -  -"
-              maxLength={3}
-              value={data.cvc}
-              onChange={(e) => handleChange("cvc", e.target.value)}
-              className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg   h-12"
-            />
+            <label className="block text-lg lg:text-xl font-abc-light mb-2">CVC: <span className="text-sm text-[#F80B58]">{!isValid && "Must be 3 digits"}</span></label>
+                 <Input
+                    type="number"
+                    placeholder="CVC"
+                    maxLength={3}
+                    value={data.cvc}
+                     className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg   h-12"
+                    onChange={(e) => handleChange("cvc", e.target.value.slice(0, 3))}
+                  />
           </div>
         </div>
       </div>
 
       {/* Privacy Policy Checkbox */}
       <div className="flex items-center gap-3 mb-8">
-<Checkbox
-  className="w-5 h-5  border border-[#FFFFFF] border-2 rounded transition-colors duration-200
-             data-[state=checked]:bg-[#F80B58] data-[state=checked]:border-[#FFFFFF] cursor-pointer"
-/>
+        <Checkbox
+          checked={isChecked}
+          onCheckedChange={(checked) => setIsChecked(!!checked)}
+          className="w-5 h-5 border border-[#FFFFFF] border-2 rounded transition-colors duration-200
+                     data-[state=checked]:bg-[#F80B58] data-[state=checked]:border-[#FFFFFF] cursor-pointer"
+        />
 
 
         <span className="text-sm ">I agree to the privacy policy & terms of service.</span>
@@ -195,8 +233,8 @@ const StepTwo: React.FC<StepTwoProps> = ({ data, onChange, onBack, onSubmit }) =
           Back
         </Button>
         <Button
-          onClick={onSubmit}
-          disabled={!isValid}
+            onClick={handleClick}
+          disabled={!isValid || !isStripeReady}
           className="px-10 py-5 text-lg md:text-xl rounded-full bg-[#F80B58] text-white font-semibold hover:bg-[#F80B5899] disabled:opacity-50 cursor-pointer"
         >
           Pay & Register

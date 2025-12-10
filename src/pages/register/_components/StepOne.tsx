@@ -83,7 +83,7 @@ const StepOne: React.FC<StepOneProps> = ({ data, onChange, onContinue }) => {
           <div>
             <label className="block text-base lg:text-lg font-abc-light mb-2">Teudat Zehut: *</label>
             <Input
-              type="text"
+              type="number"
               placeholder="- - - - - - - -"
               value={data.teudatZehut}
               onChange={(e) => handleChange("teudatZehut", e.target.value)}

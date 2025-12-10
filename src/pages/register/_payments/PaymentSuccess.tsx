@@ -3,6 +3,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { GoDownload } from "react-icons/go";
 import successPic from "@/assets/payment/dialog/success.png"
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 // import { useNavigate } from "react-router";
 
 
@@ -10,13 +11,21 @@ interface PaymentSuccessProps {
   open: boolean
   onClose: () => void
   membershipId: string
+  avalableDate: string ,
+  validDate : string
+  activeStatus: boolean
 }
 
-const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membershipId }) => {
+const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membershipId , validDate , avalableDate , activeStatus}) => {
   // const navigate = useNavigate()
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="border-0 bg-white rounded-2xl shadow-2xl max-w-md italic">
+      <DialogContent aria-describedby="dialog-description" className="border-0 bg-white rounded-2xl shadow-2xl max-w-md italic">
+
+          <DialogTitle className="sr-only">Payment Successful</DialogTitle>
+  <DialogDescription id="dialog-description" className="sr-only">
+    Your membership has been activated. Your membership ID has been sent to your email.
+  </DialogDescription>
 
         <div className="space-y-2  px-6 text-center">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-widest">Confirmation</p>
@@ -52,15 +61,15 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membersh
             <div className=" gap-4  border-t border-gray-200 text-[#191919]">
               <div className=" flex justify-between border-b border-gray-200 p-3">
                 <p className="  ">Membership Status:</p>
-                <p className=" ">Activated</p>
+                <p className=" ">{activeStatus ? "Activated" : "Not Activate"}</p>
               </div>
               <div className="flex justify-between border-b border-gray-200 p-3">
                 <p className=" ">Activation Date:</p>
-                <p className=" ">Nov 12, 2025</p>
+                <p className=" ">{ avalableDate.slice(0,10)}</p>
               </div>
                 <div className="flex justify-between border-b border-gray-200 p-3">
                     <p className=" ">Valid Still:</p>
-                    <p className="">Nov 12, 2026</p>
+                    <p className="">{validDate.slice(0,10)}</p>
                  </div>
             </div>
 

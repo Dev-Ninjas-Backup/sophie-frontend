@@ -11,7 +11,7 @@ const RedeemSuccess: React.FC<RedeemSuccessProps> = ({ open, onClose }) => {
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
         
-      <DialogContent
+      <DialogContent aria-describedby="dialog-description"
         className="border-0 bg-white rounded-2xl shadow-2xl max-w-sm p-0
                    fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
       >
