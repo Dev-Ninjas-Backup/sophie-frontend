@@ -6,7 +6,7 @@ import StepTwo from "./_components/StepTwo";
 import PaymentProcessing from "./_payments/PaymentProcessingProps";
 import PaymentSuccess from "./_payments/PaymentSuccess";
 import { toast } from "react-toastify";
-import { useStripe, useElements, CardElement } from "@stripe/react-stripe-js";
+import { useStripe } from "@stripe/react-stripe-js";
 import { BASE_URL } from "@/lib/baseUrl";
 // import {Elements} from '@stripe/react-stripe-js';
 // import {loadStripe} from '@stripe/stripe-js';
@@ -35,7 +35,7 @@ const Register: React.FC = () => {
   }, []);
 
   const stripe = useStripe();
-const elements = useElements();
+// const elements = useElements();
 
   const [currentStep, setCurrentStep] = useState(1);
   const [showProcessing, setShowProcessing] = useState(false);
@@ -100,50 +100,50 @@ const pollRegistration = async (registrationId: string, interval = 2000, maxRetr
   throw new Error("Payment confirmation timed out. Please check your payment.");
 };
 
+useEffect(()=> {
+  //  console.log(cardElement , "--")
+  console.log(stripe ,"==")
+},[])
 
-
-const handleSubmit = async () => {
+const handleSubmit = async (token: string) => {
   setShowProcessing(true);
-  const cardElement = elements?.getElement(CardElement);
-  // console.log(cardElement , "--")
-  // console.log(stripe ,"==")
-    if (!stripe || !cardElement) throw new Error("Stripe.js has not loaded");
 
   try {
-    const payload = {
-      ...formData,
-      aliyahDate: new Date(formData.dateOfAliyah).toISOString(),
-    };
+    if (!token) {
+      throw new Error("Payment token not generated");
+    }
+
+
+    if (!formData.validity) {
+  toast.warn("Please select membership validity");
+  return;
+}
+if (!formData.cardholderName) {
+  toast.warn("Cardholder name is required");
+  return;
+}
+
+const payload = {
+  firstName: formData.firstName,
+  lastName: formData.lastName,
+  email: formData.email,
+  phone: formData.phone,
+  teudatZehut: formData.teudatZehut,
+  aliyahDate: new Date(formData.dateOfAliyah).toISOString(),
+  validity: formData.validity,
+  cardholderName: formData.cardholderName,
+  paymentMethod: formData.paymentMethod,
+  stripeToken: token,
+};
+console.log(payload)
 
     const res = await axios.post(`${BASE_URL}/register`, payload, { withCredentials: true });
-    console.log(res, "res")
+
     const registrationId = res?.data?.data?.registration?.id;
-    const clientSecret = res?.data?.data?.clientSecret;
+    if (!registrationId) throw new Error("Registration ID not returned");
 
-    if (!registrationId || !clientSecret) throw new Error("Registration ID or clientSecret not returned");
-
-  
-
-    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: cardElement,
-        billing_details: {
-          name: `${formData.firstName} ${formData.lastName}`,
-          email: formData.email,
-        },
-      },
-    });
-
-    if (paymentResult.error) {
-      throw new Error(paymentResult.error.message);
-    }
-
-    // Start polling for registration activation
     const registrationData = await pollRegistration(registrationId);
 
-    if (!registrationData) {
-      throw new Error("Registration data not found");
-    }
     toast.success("Registration done and payment cleared!");
     setMembershipId(registrationData.membershipId);
     setAvalableDate(registrationData.validFrom);
@@ -151,8 +151,8 @@ const handleSubmit = async () => {
     setShowSuccess(true);
 
   } catch (err: any) {
-    console.error(err.message);
-    toast.error(err.message || "Something went wrong");
+      const message = err.response?.data?.message || err.message || "Something went wrong";
+  toast.error(message);
   } finally {
     setShowProcessing(false);
   }
