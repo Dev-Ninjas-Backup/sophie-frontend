@@ -3,20 +3,54 @@ import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
 import { GoDownload } from "react-icons/go";
 import successPic from "@/assets/payment/dialog/success.png"
-// import { useNavigate } from "react-router";
+import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
+import { useNavigate } from "react-router";
 
 
 interface PaymentSuccessProps {
   open: boolean
   onClose: () => void
   membershipId: string
+  avalableDate: string ,
+  validDate : string
+  activeStatus: boolean ,
+  mail : string}
+
+const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membershipId , validDate , avalableDate , activeStatus , mail}) => {
+
+
+ function maskMail(email: string): string {
+  if (!email || !email.includes("@")) return email;
+
+  const [user, domain] = email.split("@");
+
+  const maskedUser =
+    user.length <= 2
+      ? user[0] + "*"
+      : user[0] + "*".repeat(user.length - 2) + user[user.length - 1];
+
+
+  const domainParts = domain.split(".");
+  const mainDomain = domainParts[0];
+  const tld = domainParts.slice(1).join(".");
+
+  const maskedDomain =
+    mainDomain.length <= 2
+      ? mainDomain[0] + "*"
+      : mainDomain[0] + "*".repeat(mainDomain.length - 1);
+
+  return `${maskedUser}@${maskedDomain}.${tld}`;
 }
 
-const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membershipId }) => {
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
   return (
     <Dialog open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
-      <DialogContent className="border-0 bg-white rounded-2xl shadow-2xl max-w-md italic">
+      <DialogContent aria-describedby="dialog-description" className="border-0 bg-white rounded-2xl shadow-2xl max-w-md italic">
+
+          <DialogTitle className="sr-only">Payment Successful</DialogTitle>
+  <DialogDescription id="dialog-description" className="sr-only">
+    Your membership has been activated. Your membership ID has been sent to your email.
+  </DialogDescription>
 
         <div className="space-y-2  px-6 text-center">
               <p className="text-xs text-gray-500 font-semibold uppercase tracking-widest">Confirmation</p>
@@ -28,7 +62,7 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membersh
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-black">Congratulations!</h2>
             <p className="text-base text-gray-600">
-             You have been successfully registered in our system. We have sent a copy of your membership ID and payment details to your email ex……@.com
+             You have been successfully registered in our system. We have sent a copy of your membership ID and payment details to your email {maskMail(mail)}
             </p>
           </div>
 
@@ -52,15 +86,15 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membersh
             <div className=" gap-4  border-t border-gray-200 text-[#191919]">
               <div className=" flex justify-between border-b border-gray-200 p-3">
                 <p className="  ">Membership Status:</p>
-                <p className=" ">Activated</p>
+                <p className=" ">{activeStatus ? "Activated" : "Not Activate"}</p>
               </div>
               <div className="flex justify-between border-b border-gray-200 p-3">
                 <p className=" ">Activation Date:</p>
-                <p className=" ">Nov 12, 2025</p>
+                <p className=" ">{ avalableDate.slice(0,10)}</p>
               </div>
                 <div className="flex justify-between border-b border-gray-200 p-3">
                     <p className=" ">Valid Still:</p>
-                    <p className="">Nov 12, 2026</p>
+                    <p className="">{validDate.slice(0,10)}</p>
                  </div>
             </div>
 
@@ -69,12 +103,12 @@ const PaymentSuccess: React.FC<PaymentSuccessProps> = ({ open, onClose, membersh
 
           {/* Buttons */}
           <div className="space-y-3 pt-4">
-            <Button className="w-full bg-[#e1e1e1] text-black hover:bg-gray-200 cursor-pointer rounded-full font-semibold">
+            {/* <Button className="w-full bg-[#e1e1e1] text-black hover:bg-gray-200 cursor-pointer rounded-full font-semibold">
               Download as PDF <GoDownload size={22}/>
-            </Button>
-            {/* <Button onClick={()=> navigate("/redeem")} className="w-full bg-[#F80B58] text-white hover:bg-pink-500 cursor-pointer rounded-full font-semibold">
-              Redeem First Discount
             </Button> */}
+            <Button onClick={()=> navigate("/redeem")} className="w-full bg-[#F80B58] text-white hover:bg-pink-500 cursor-pointer rounded-full font-semibold">
+              Redeem First Discount
+            </Button>
           </div>
 
         </div>

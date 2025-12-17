@@ -17,7 +17,7 @@ const Contact = () => {
         <p className={`${textClass} font-abc-ultra-3 bold-stroke-3 `}>contact us at</p>
 <a
   href="mailto:olimpass@gmail.com"
-  className={`${textClass} !text-[#D405D9] !font-abc-ultra-3  bold-stroke-2 hover:underline`}
+  className={`${textClass} !text-[#D405D9] !font-abc-ultra-3  bold-stroke-2 hover:underline `}
 >
   olimpass@gmail.com
 </a>
