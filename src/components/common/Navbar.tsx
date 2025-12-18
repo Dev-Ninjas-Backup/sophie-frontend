@@ -1,21 +1,21 @@
 import { useState } from "react";
-import { NavLink, useLocation, useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { HiMenu, HiX } from "react-icons/hi";
 
-const navItems = [
-  { label: "Home", to: "/" },
-  { label: "Partners", to: "/partners" },
-];
+// const navItems = [
+//   { label: "Home", to: "/" },
+//   { label: "Partners", to: "/partners" },
+// ];
 
 const Navbar = () => {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
 
-  const linkClasses = ({ isActive }: { isActive: boolean }) =>
-    `lg:text-xl xl:text-2xl transition hover:text-[#F80B58] ${
-      isActive ? "text-[#F80B58]" : "text-white"
-    }`;
+  // const linkClasses = ({ isActive }: { isActive: boolean }) =>
+  //   `lg:text-xl xl:text-2xl transition hover:text-[#F80B58] ${
+  //     isActive ? "text-[#F80B58]" : "text-white"
+  //   }`;
 
   return (
     <nav className="fixed top-0 w-full bg-black/95 backdrop-blur-md py-3 z-50">

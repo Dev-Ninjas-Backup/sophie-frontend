@@ -1,7 +1,7 @@
 import type React from "react"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { GoDownload } from "react-icons/go";
+// import { GoDownload } from "react-icons/go";
 import successPic from "@/assets/payment/dialog/success.png"
 import { DialogDescription, DialogTitle } from "@radix-ui/react-dialog";
 import { useNavigate } from "react-router";

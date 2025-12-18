@@ -10,6 +10,7 @@ import axios from "axios"
 import { BASE_URL } from "@/lib/baseUrl"
 import { Link } from "react-router"
 import ResetPassword from "../components/ResetPassword"
+import { toast } from "react-toastify"
 
 export default function Dashboard() {
   const { user } = useAuth()
@@ -24,7 +25,9 @@ export default function Dashboard() {
 const handleLogout = async () => {
   try {
     await axios.post(`${BASE_URL}/auth/logout`, {}, { withCredentials: true })
+    toast.success("Logged out successfully")
     localStorage.removeItem("user") 
+    localStorage.removeItem("dashboardActiveTab")
     window.location.href = "/dashboard/login"
   } catch (error) {
     console.error("Logout failed", error)

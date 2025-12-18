@@ -10,9 +10,10 @@ import {loadStripe} from '@stripe/stripe-js';
 import SignUp from "@/(dashboard)/auth/register/SingUp";
 import DashboradLayout from "@/layouts/DashboardLayout";
 import Login from "@/(dashboard)/auth/login/Login";
-import Dashboard from "@/(dashboard)/pages/dashboard";
-import Categories from "@/(dashboard)/components/Categories";
+// import Dashboard from "@/(dashboard)/pages/dashboard";
+// import Categories from "@/(dashboard)/components/Categories";
 import PrivateRoute from "./PrivateRoutes";
+import Dashboard from "@/(dashboard)/pages/Dashboard";
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY!)
 
 
