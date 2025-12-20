@@ -88,6 +88,7 @@ const pollRegistration = async (registrationId: string, interval = 2000, maxRetr
     validTo: registrationData.validTo
   });
   // console.log(i)
+        await axios.get(`${BASE_URL}/register/send-mail/${registrationData.id}`);
         setActiveStatus(true)
         return registrationData;
       }

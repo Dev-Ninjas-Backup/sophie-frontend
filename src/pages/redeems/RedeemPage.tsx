@@ -96,7 +96,7 @@ const handleRedeem = async () => {
 
 
   return (
-    <div className="bg-[#0B0003] text-white flex flex-col items-center p-6">
+    <div className=" text-white flex flex-col items-center p-6">
       <h1 className="text-5xl text-center mb-12 md:text-6xl lg:text-7xl xl:text-8xl font-abc-heavy-3 bold-stroke-3 leading-10 md:leading-12 lg:leading-15 xl:leading-19 tracking-[-1px] xl:tracking-[-2px]">
         MEMBERSHIP VALIDATION
       </h1>
