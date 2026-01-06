@@ -1,0 +1,19 @@
+services:
+  sophie-frontend:
+    platform: linux/amd64
+    image:  softvence/sophie-frontend:latest
+    container_name: sophie_frontend
+    restart: alwayes
+    expose:
+      - "3000"
+    environment:
+      - NODE_ENV=production
+      - NEXT_PUBLIC_API_URL=${API_URL}
+    networks:
+      - sophie-server_network
+    depends_on:
+      - server
+networks:
+  sophie-networks:
+    driver: bridge
+    external: true
