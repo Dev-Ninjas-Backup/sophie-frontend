@@ -81,7 +81,7 @@ jobs:
             
             # Check container status (adjust container name to match yours)
             if docker compose ps | grep -q "Up"; then
-              echo "✅ Deployment successful!"
+              echo "✅ Deployment successful!..."
               docker compose logs --tail=30
             else
               echo "❌ Deployment failed!"
