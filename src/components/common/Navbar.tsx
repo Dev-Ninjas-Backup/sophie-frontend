@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { HiMenu, HiX } from "react-icons/hi";
+import logo from "@/assets/img/logo.jpg"
 
 // const navItems = [
 //   { label: "Home", to: "/" },
@@ -27,7 +28,9 @@ const Navbar = () => {
               onClick={() => navigate("/")}
               className="text-2xl md:text-3xl lg:text-[40px] font-abc-ultra-3 bold-stroke tracking-[1px] md:tracking-[2px] text-white font-bold cursor-pointer"
             >
-              OLIM PASS
+              <div className="h-18 w-22 overflow-hidden">
+                <img src={logo} alt="" className="h-full w-full scale-115  bg-transparent" />
+              </div>
             </div>
           ) : (
             <div></div>
@@ -48,40 +51,38 @@ const Navbar = () => {
           {/* Desktop Buttons */}
           <div className="hidden md:block">
             <div className="flex gap-3 justify-center items-center">
-
               {/* <button
                 onClick={() => navigate("/dashboard/login")}
                 className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
               >
                 Admin Login
               </button> */}
-              
-            {pathname !== "/" && pathname !== "/register" && (
-              <button
-                onClick={() => navigate("/register")}
-                className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-              >
-                Sign Up
-              </button>
-            )}
-            {pathname !== "/redeem" && (
-              <button
-                onClick={() => navigate("/redeem")}
-                className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-              >
-                Redeem
-              </button>
-            )}
-            {pathname !== "/contact" && (
-              <button
-                onClick={() => navigate("/contact")}
-                className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-              >
-                Contact
-              </button>
-            )}
-          </div>
 
+              {pathname !== "/" && pathname !== "/register" && (
+                <button
+                  onClick={() => navigate("/register")}
+                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                >
+                  Sign Up
+                </button>
+              )}
+              {pathname !== "/redeem" && (
+                <button
+                  onClick={() => navigate("/redeem")}
+                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                >
+                  Redeem
+                </button>
+              )}
+              {pathname !== "/contact" && (
+                <button
+                  onClick={() => navigate("/contact")}
+                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                >
+                  Contact
+                </button>
+              )}
+            </div>
           </div>
           {/* Mobile Toggle */}
           <div className="md:hidden">
@@ -116,41 +117,41 @@ const Navbar = () => {
                   )
               )} */}
 
-             <div className="flex flex-col w-min gap-3">
-               {pathname !== "/" && pathname !== "/register" && (
-                <button
-                  onClick={() => {
-                    navigate("/register");
-                    setIsOpen(false);
-                  }}
-                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-                >
-                  Sign Up
-                </button>
-              )}
-              {pathname !== "/redeem" && (
-                <button
-                  onClick={() => {
-                    navigate("/redeem");
-                    setIsOpen(false);
-                  }}
-                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-                >
-                  Redeem
-                </button>
-              )}
-              {pathname !== "/contact" && (
-                <button
-                  onClick={() => {
-                    navigate("/contact");
-                    setIsOpen(false);
-                  }}
-                  className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
-                >
-                  Contact
-                </button>
-              )}
-             </div>
+              <div className="flex flex-col w-min gap-3">
+                {pathname !== "/" && pathname !== "/register" && (
+                  <button
+                    onClick={() => {
+                      navigate("/register");
+                      setIsOpen(false);
+                    }}
+                    className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                  >
+                    Sign Up
+                  </button>
+                )}
+                {pathname !== "/redeem" && (
+                  <button
+                    onClick={() => {
+                      navigate("/redeem");
+                      setIsOpen(false);
+                    }}
+                    className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                  >
+                    Redeem
+                  </button>
+                )}
+                {pathname !== "/contact" && (
+                  <button
+                    onClick={() => {
+                      navigate("/contact");
+                      setIsOpen(false);
+                    }}
+                    className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
+                  >
+                    Contact
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         )}
