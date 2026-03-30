@@ -1,1 +1,1 @@
-export const BASE_URL : string = "https://api.olimpass.io";
+export const BASE_URL: string = import.meta.env.VITE_BASE_URL!;

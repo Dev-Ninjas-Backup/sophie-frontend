@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import type React from "react";
@@ -36,11 +37,28 @@ const StepTwo: React.FC<StepTwoProps> = ({
 
   const [isChecked, setIsChecked] = useState(false);
 
-  // ✅ PLAN CONFIG (matches backend)
   const plans = [
-    { id: "1 year", title: "BASIC", price: 299 },
-    { id: "2 years", title: "STANDARD", price: 449 },
-    { id: "3 years", title: "PREMIUM", price: 699 },
+    {
+      id: "1 year",
+      title: "BASIC",
+      price: 299,
+      originalPrice: null,
+      discount: null,
+    },
+    {
+      id: "2 years",
+      title: "STANDARD",
+      price: 449,
+      originalPrice: 599,
+      discount: "25% discount",
+    },
+    {
+      id: "3 years",
+      title: "PREMIUM",
+      price: 629,
+      originalPrice: 899,
+      discount: "30% discount",
+    },
   ];
 
   const selectedPlan = plans.find((p) => p.id === data.validity);
@@ -95,27 +113,51 @@ const StepTwo: React.FC<StepTwoProps> = ({
           <div
             key={plan.id}
             onClick={() => handleChange("validity", plan.id)}
-            className={`cursor-pointer rounded-2xl p-6 text-center transition-all duration-300 border-2 
-            ${
-              data.validity === plan.id
-                ? "border-[#F80B58] scale-105"
-                : "border-transparent"
-            }`}
+            className={`relative overflow-hidden cursor-pointer rounded-2xl p-6 text-center transition-all duration-300 border-2 
+    ${
+      data.validity === plan.id
+        ? "border-[#F80B58] scale-105 shadow-[0_0_15px_rgba(248,11,88,0.3)]"
+        : "border-transparent"
+    }`}
             style={{ backgroundColor: "#2b2b2b" }}
           >
-            <h4 className="text-xl font-bold mb-4">{plan.title}</h4>
+            {/* Diagonal Banner */}
+            {plan.discount && (
+              <div className="absolute top-0 right-0 w-24 h-24 overflow-hidden pointer-events-none">
+                <div className="bg-[#F80B58] text-white text-[9px] font-bold py-1 w-[140px] absolute top-4 -right-10 rotate-45 shadow-md uppercase tracking-tighter">
+                  {plan.discount}
+                </div>
+              </div>
+            )}
 
-            <p className="text-3xl font-bold mb-4">₪ {plan.price}</p>
+            <h4 className="text-xl font-bold mb-4 tracking-wide">
+              {plan.title}
+            </h4>
+
+            <div className="mb-4 flex flex-col items-center justify-center h-16">
+              {/* Regular Price (Strikethrough) */}
+              {plan.originalPrice && (
+                <span className="relative text-gray-500 text-lg px-1 inline-block">
+                  ₪ {plan.originalPrice}
+                  {/* Custom 45-degree cross line */}
+                  <span className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                    <span className="w-full h-0.5 bg-[#F80B58] rotate-[-15deg]"></span>
+                  </span>
+                </span>
+              )}
+              {/* Discounted Price */}
+              <p className="text-3xl font-bold text-white">₪ {plan.price}</p>
+            </div>
 
             <p className="text-gray-400 text-sm mb-4">{plan.id}</p>
 
             <div
-              className={`mt-4 py-2 rounded-full text-sm font-semibold 
-              ${
-                data.validity === plan.id
-                  ? "bg-[#F80B58] text-white"
-                  : "bg-gray-700 text-gray-300"
-              }`}
+              className={`mt-4 py-2 rounded-full text-sm font-semibold transition-colors
+      ${
+        data.validity === plan.id
+          ? "bg-[#F80B58] text-white"
+          : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+      }`}
             >
               {data.validity === plan.id ? "Selected" : "Select Plan"}
             </div>
@@ -207,7 +249,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
         <Checkbox
           checked={isChecked}
           onCheckedChange={(checked) => setIsChecked(!!checked)}
-          className="w-5 h-5 border-2 border-white data-[state=checked]:bg-[#F80B58]"
+          className="w-5 h-5 border-2 cursor-pointer border-white data-[state=checked]:bg-[#F80B58]"
         />
         <span className="text-sm">
           I agree to the privacy policy & terms of service.
@@ -227,7 +269,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
         <Button
           onClick={handleClick}
           disabled={!isValid || !isStripeReady}
-          className="px-10 py-5 rounded-full bg-[#F80B58] text-white disabled:opacity-50"
+          className="px-10 py-5 text-lg md:text-xl cursor-pointer rounded-full bg-[#F80B58] text-white font-semibold hover:bg-[#F80B5899] disabled:opacity-50"
         >
           Pay & Register
         </Button>
