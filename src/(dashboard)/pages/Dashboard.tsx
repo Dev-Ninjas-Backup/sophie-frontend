@@ -84,6 +84,8 @@ const handleTabChange = (value: string) => {
             ))}
           </TabsList>
 
+
+
           {/* Tab Contents */}
           <div className="bg-[#1a1a1a] rounded-b-md p-6 shadow-md">
             <TabsContent value="categories">

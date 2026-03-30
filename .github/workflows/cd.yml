@@ -49,8 +49,8 @@ jobs:
           context: .
           push: true
           tags: softvence/adelbenali-admin:latest
-          cache-from: type=registry,ref=softvence/adelbenali-admin:buildcache
-          cache-to: type=registry,ref=softvence/adelbenali-admin:buildcache,mode=max
+          cache-from: type=registry,ref=softvence/sophie-frontend:buildcache
+          cache-to: type=registry,ref=softvence/sophie-frontend:buildcache,mode=max
 
   deploy:
     name: Deploy to Server
@@ -65,7 +65,7 @@ jobs:
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_PRIVATE_KEY }}
           script: |
-            cd ~/admin-panel
+            cd ~/frontend
             
             # Pull latest image
             docker compose pull
@@ -81,7 +81,7 @@ jobs:
             
             # Check container status (adjust container name to match yours)
             if docker compose ps | grep -q "Up"; then
-              echo "✅ Deployment successful!"
+              echo "✅ Deployment successful!..."
               docker compose logs --tail=30
             else
               echo "❌ Deployment failed!"
