@@ -71,7 +71,10 @@ jobs:
             docker compose pull
             
             # Stop and remove old containers
-            docker compose down --remove-orphans
+            docker compose down
+
+            # Remove old images (be careful with this)
+            docker image prune -af
             
             # Start new containers
             docker compose up -d
