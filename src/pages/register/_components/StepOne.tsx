@@ -1,28 +1,35 @@
-import type React from "react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { useNavigate } from "react-router"
+import type React from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
+import { useState } from "react";
 
 interface StepOneProps {
   data: {
-    firstName: string
-    lastName: string
-    email: string
-    phone: string
-    teudatZehut: string
-    dateOfAliyah: string
-  }
-  onChange: (data: any) => void
-  onContinue: () => void
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    teudatZehut: string;
+    dateOfAliyah: string;
+  };
+  onChange: (data: any) => void;
+  onContinue: () => void;
 }
 
 const StepOne: React.FC<StepOneProps> = ({ data, onChange, onContinue }) => {
   const handleChange = (field: string, value: string) => {
-    onChange({ [field]: value })
-  }
-  const navigate = useNavigate()
+    onChange({ [field]: value });
+  };
+  const navigate = useNavigate();
+  const [tzError, setTzError] = useState("");
 
-  const isValid = data.firstName && data.lastName && data.email && data.teudatZehut && data.dateOfAliyah
+  const isValid =
+    data.firstName &&
+    data.lastName &&
+    data.email &&
+    data.teudatZehut.length === 9 &&
+    data.dateOfAliyah;
 
   return (
     <div className="">
@@ -96,13 +103,28 @@ const StepOne: React.FC<StepOneProps> = ({ data, onChange, onContinue }) => {
               Teudat Zehut: *
             </label>
             <Input
-              type="number"
-              placeholder="- - - - - - - -"
+              type="text"
+              placeholder="- - - - - - - - -"
               value={data.teudatZehut}
-              min={8}
-              onChange={(e) => handleChange("teudatZehut", e.target.value)}
-              className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg h-12  "
+              maxLength={9}
+              onChange={(e) => {
+                const value = e.target.value.replace(/\D/g, "");
+
+                handleChange("teudatZehut", value);
+
+                // validation
+                if (value.length === 0) {
+                  setTzError("");
+                } else if (value.length !== 9) {
+                  setTzError("Should be 9 digits");
+                } else {
+                  setTzError("");
+                }
+              }}
+              className="!bg-[#2b2b2b] border-0 focus:!ring-1 focus:!ring-[#F80B58] text-white placeholder-gray-600 text-base lg:text-lg h-12"
             />
+
+            {tzError && <p className="text-red-500 text-sm mt-2">{tzError}</p>}
           </div>
           <div>
             <label className="block text-base lg:text-lg font-abc-light mb-2">
@@ -138,6 +160,6 @@ const StepOne: React.FC<StepOneProps> = ({ data, onChange, onContinue }) => {
       </div>
     </div>
   );
-}
+};
 
-export default StepOne
+export default StepOne;

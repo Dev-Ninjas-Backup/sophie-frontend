@@ -49,14 +49,14 @@ const StepTwo: React.FC<StepTwoProps> = ({
       id: "2 years",
       title: "STANDARD",
       price: 449,
-      originalPrice: 599,
+      originalPrice: 598,
       discount: "25% discount",
     },
     {
       id: "3 years",
       title: "PREMIUM",
       price: 629,
-      originalPrice: 899,
+      originalPrice: 897,
       discount: "30% discount",
     },
   ];

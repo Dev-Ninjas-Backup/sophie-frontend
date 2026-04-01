@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { HiMenu, HiX } from "react-icons/hi";
-import logo from "@/assets/img/logo.jpg"
+import logo from "@/assets/img/logo.jpg";
 
 // const navItems = [
 //   { label: "Home", to: "/" },
@@ -23,18 +23,20 @@ const Navbar = () => {
       <div className="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          {pathname !== "/" ? (
+          {
             <div
               onClick={() => navigate("/")}
               className="text-2xl md:text-3xl lg:text-[40px] font-abc-ultra-3 bold-stroke tracking-[1px] md:tracking-[2px] text-white font-bold cursor-pointer"
             >
               <div className="h-18 w-22 overflow-hidden">
-                <img src={logo} alt="" className="h-full w-full scale-115  bg-transparent" />
+                <img
+                  src={logo}
+                  alt=""
+                  className="h-full w-full scale-115  bg-transparent"
+                />
               </div>
             </div>
-          ) : (
-            <div></div>
-          )}
+          }
 
           {/* Desktop Navigation */}
           {/* <div className="hidden md:flex items-center gap-8">
@@ -66,14 +68,14 @@ const Navbar = () => {
                   Sign Up
                 </button>
               )}
-              {pathname !== "/redeem" && (
+              {/* {pathname !== "/redeem" && (
                 <button
                   onClick={() => navigate("/redeem")}
                   className="px-6 py-2 border-2 text-lg cursor-pointer text-white border-white rounded-full hover:bg-white hover:text-black transition font"
                 >
                   Redeem
                 </button>
-              )}
+              )} */}
               {pathname !== "/contact" && (
                 <button
                   onClick={() => navigate("/contact")}

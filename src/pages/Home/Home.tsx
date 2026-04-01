@@ -17,7 +17,7 @@ const Home = () => {
     },
     {
       color: "#000000",
-      text: "Receive ongoing discounts at gyms, coffee shops, restaurants, and local businesses for your first 3 years in Tel Aviv.",
+      text: "Receive ongoing discounts at gyms, coffee shops, restaurants, and local businesses.",
     },
     {
       color: "#000000",
