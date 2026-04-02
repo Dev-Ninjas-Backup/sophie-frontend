@@ -5,10 +5,10 @@ import type React from "react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import googleImg from "@/assets/payment/Google.png";
-import visaImg from "@/assets/payment/visa.svg";
-import mastercardImg from "@/assets/payment/masterCard.svg";
-import stripeImg from "@/assets/payment/Stripe.png";
+// import googleImg from "@/assets/payment/Google.png";
+// import visaImg from "@/assets/payment/visa.svg";
+// import mastercardImg from "@/assets/payment/masterCard.svg";
+// import stripeImg from "@/assets/payment/Stripe.png";
 import { toast } from "react-toastify";
 import { useElements, useStripe, CardElement } from "@stripe/react-stripe-js";
 import { useState } from "react";
@@ -67,9 +67,9 @@ const StepTwo: React.FC<StepTwoProps> = ({
     onChange({ [field]: value });
   };
 
-  const handlePaymentMethodChange = (method: string) => {
-    onChange({ paymentMethod: method });
-  };
+  // const handlePaymentMethodChange = (method: string) => {
+  //   onChange({ paymentMethod: method });
+  // };
 
   const handleClick = async () => {
     if (!isChecked) {
@@ -176,35 +176,7 @@ const StepTwo: React.FC<StepTwoProps> = ({
       </div>
 
       {/* ================= PAYMENT METHOD ================= */}
-      <div className="mb-8">
-        <h3 className="text-lg lg:text-xl font-abc-light mb-4">
-          Payment Method
-        </h3>
 
-        <div className="flex flex-wrap items-center gap-6">
-          {[
-            { id: "stripe", icon: stripeImg },
-            { id: "visa", icon: visaImg },
-            { id: "mastercard", icon: mastercardImg },
-            { id: "gpay", icon: googleImg },
-          ].map((method) => (
-            <label
-              key={method.id}
-              className="flex items-center gap-3 cursor-pointer"
-            >
-              <input
-                type="radio"
-                name="payment"
-                checked={data.paymentMethod === method.id}
-                onChange={() => handlePaymentMethodChange(method.id)}
-                className="w-5 h-5 cursor-pointer appearance-none border-2 border-gray-300 rounded-full checked:bg-[#F80B58] checked:border-white"
-              />
-
-              <img src={method.icon} alt="" />
-            </label>
-          ))}
-        </div>
-      </div>
 
       {/* ================= CARD ================= */}
       <div className="space-y-6 mb-8">
