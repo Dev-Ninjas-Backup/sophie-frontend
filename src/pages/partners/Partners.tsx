@@ -36,7 +36,7 @@ const Partners: React.FC = () => {
       color: colors[index % colors.length],
       businesses: cat.partners.map(
           (partner) =>
-            `${partner?.name} - ${partner?.discount}`
+            `${partner?.name} : ${partner?.discount}`
         ),
     };
   });
