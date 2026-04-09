@@ -234,11 +234,6 @@
 
 
 
-
-
-
-
-
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
@@ -261,12 +256,15 @@ interface Category {
 export default function DPartners() {
   const [categories, setCategories] = useState<Category[]>([]);
   const [selectedCategoryId, setSelectedCategoryId] = useState("");
+  const [loading, setLoading] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
+  // Form States
   const [name, setName] = useState("");
   const [discount, setDiscount] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [success, setSuccess] = useState("");
-  const [error, setError] = useState("");
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCategories();
@@ -286,33 +284,57 @@ export default function DPartners() {
     }
   };
 
-  const handleCreatePartner = async (e: React.FormEvent) => {
-    setCreateLoading(true);
+  const handleCreateOrUpdatePartner = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCategoryId) return setError("Please select a category");
+    
+    setCreateLoading(true);
     setError("");
     setSuccess("");
 
     try {
-      await axios.post(
-        `${BASE_URL}/partners`,
-        {
-          name,
-          discount,
-          categoryId: selectedCategoryId,
-        },
-        { withCredentials: true },
-      );
+      const payload = {
+        name,
+        discount,
+        categoryId: selectedCategoryId,
+      };
 
-      setSuccess("Partner created successfully");
-      setName("");
-      setDiscount("");
+      if (editingId) {
+        // Update Logic
+        await axios.patch(`${BASE_URL}/partners/${editingId}`, payload, {
+          withCredentials: true,
+        });
+        setSuccess("Partner updated successfully");
+      } else {
+        // Create Logic
+        await axios.post(`${BASE_URL}/partners`, payload, {
+          withCredentials: true,
+        });
+        setSuccess("Partner created successfully");
+      }
+
+      resetForm();
       fetchCategories();
-      setCreateLoading(false);
     } catch (err: any) {
-      setError(err.response?.data?.message || "Failed to create partner");
+      setError(err.response?.data?.message || "Operation failed");
+    } finally {
       setCreateLoading(false);
     }
+  };
+
+  const handleEditClick = (partner: Partner) => {
+    setEditingId(partner.id);
+    setName(partner.name);
+    setDiscount(partner.discount);
+    setSelectedCategoryId(partner.categoryId);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const resetForm = () => {
+    setEditingId(null);
+    setName("");
+    setDiscount("");
+    // We keep the selectedCategoryId for convenience unless you want to reset it
   };
 
   const handleDeletePartner = async (partnerId: string) => {
@@ -355,10 +377,10 @@ export default function DPartners() {
 
   return (
     <div className="space-y-6">
-      {/* Create Partner */}
+      {/* Form Section */}
       <div className="bg-[#1a1a1a] shadow-md rounded-lg p-6">
         <h2 className="text-lg font-semibold text-white mb-4">
-          Create Partner
+          {editingId ? "Update Partner" : "Create Partner"}
         </h2>
         {error && (
           <div className="mb-4 p-3 bg-[#F80B58]/20 text-[#F80B58] rounded text-sm">
@@ -372,7 +394,7 @@ export default function DPartners() {
         )}
 
         <form
-          onSubmit={handleCreatePartner}
+          onSubmit={handleCreateOrUpdatePartner}
           className="grid grid-cols-1 sm:grid-cols-4 gap-4"
         >
           <select
@@ -405,12 +427,24 @@ export default function DPartners() {
             className="px-3 py-2 bg-[#121212] border border-[#F80B58]/40 rounded-md text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-[#F80B58]"
           />
 
-          <button
-            disabled={createLoading}
-            className="px-6 py-2 bg-[#F80B58] rounded-md text-white hover:bg-[#F80B5899] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed"
-          >
-            {createLoading ? "Creating..." : "Create Partner"}
-          </button>
+          <div className="flex gap-2">
+            <button
+              type="submit"
+              disabled={createLoading}
+              className="flex-1 px-4 py-2 bg-[#F80B58] rounded-md text-white hover:bg-[#F80B5899] transition-colors duration-200 cursor-pointer disabled:cursor-not-allowed"
+            >
+              {createLoading ? "Saving..." : editingId ? "Update" : "Create"}
+            </button>
+            {editingId && (
+              <button
+                type="button"
+                onClick={resetForm}
+                className="px-4 py-2 bg-gray-600 rounded-md text-white hover:bg-gray-700 transition-colors"
+              >
+                Cancel
+              </button>
+            )}
+          </div>
         </form>
       </div>
 
@@ -441,20 +475,17 @@ export default function DPartners() {
             </thead>
             <tbody className="divide-y divide-gray-700">
               {selectedCategory?.partners.map((partner) => (
-                <tr
-                  key={partner.id}
-                  className="hover:bg-[#121212] transition-colors"
-                >
-                  <td className="px-6 py-4 text-sm text-white">
-                    {partner.name}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-400">
-                    {partner.discount}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-gray-400">
-                    {selectedCategory.name}
-                  </td>
-                  <td className="px-6 py-4 text-right text-sm">
+                <tr key={partner.id} className="hover:bg-[#121212] transition-colors">
+                  <td className="px-6 py-4 text-sm text-white">{partner.name}</td>
+                  <td className="px-6 py-4 text-sm text-gray-400">{partner.discount}</td>
+                  <td className="px-6 py-4 text-sm text-gray-400">{selectedCategory.name}</td>
+                  <td className="px-6 py-4 text-right text-sm space-x-3">
+                    <button
+                      onClick={() => handleEditClick(partner)}
+                      className="text-blue-400 hover:text-blue-600 transition-colors cursor-pointer"
+                    >
+                      Edit
+                    </button>
                     <button
                       onClick={() => handleDeletePartner(partner.id)}
                       className="text-red-500 hover:text-red-700 transition-colors cursor-pointer"
@@ -466,10 +497,7 @@ export default function DPartners() {
               ))}
               {!selectedCategory?.partners.length && (
                 <tr>
-                  <td
-                    colSpan={4}
-                    className="px-6 py-4 text-gray-400 text-center"
-                  >
+                  <td colSpan={4} className="px-6 py-4 text-gray-400 text-center">
                     {selectedCategoryId === ""
                       ? "Please select a category to view partners"
                       : "No partners found for this category."}
