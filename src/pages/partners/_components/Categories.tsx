@@ -13,12 +13,12 @@ const Categories: FC<{ partnerCategories: UIPartnerCategory[] }> = ({ partnerCat
         {partnerCategories.map((category, index: number) => (
           <div key={index} className="text-center">
             <div
-              className={`inline-block border !border-[${category.color}] border-2 rounded-full px-9.5 py-2 mb-6`}
-              style={{ borderColor: category.color }}
+              className={`inline-block border !bg-[${category.color}] border-2 rounded-full px-9.5 py-2 mb-6`}
+              style={{ borderColor: category.color , background: category.color}}
             >
               <p
-                style={{ color: category.color }}
-                className={`text-[${category.color}] italic text-base md:text-lg lg:text-xl xl:text-xl`}
+                // style={{ color: category.color }}
+                className={`text-white italic text-base md:text-lg lg:text-xl xl:text-xl`}
               >
                 {category.name}
               </p>
