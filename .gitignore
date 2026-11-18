@@ -52,12 +52,9 @@ dist-ssr
 
 .env.production.local
 
-temp_auto_push.bat
 
-temp_interactive_push.bat
 
 .gitignore
 
 config.bat
 
-branch_structure.json
